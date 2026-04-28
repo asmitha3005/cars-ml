@@ -5,9 +5,12 @@ import os
 
 app = Flask(__name__)
 
-# Load model & encoders
+# Load model and encoders
 model = joblib.load('model.joblib')
 encoders = joblib.load('encoders.joblib')
+
+# Correct column order (VERY IMPORTANT)
+columns = ['buying','maint','doors','persons','lug_boot','safety']
 
 @app.route('/')
 def home():
@@ -19,7 +22,7 @@ def predict():
         input_data = request.form.to_dict()
 
         data = []
-        for col in input_data:
+        for col in columns:
             le = encoders[col]
             value = le.transform([input_data[col]])[0]
             data.append(value)
@@ -27,10 +30,10 @@ def predict():
         final_input = np.array([data])
         prediction = model.predict(final_input)
 
-        # Decode output
-        output = encoders['class'].inverse_transform(prediction)[0]
+        # Decode output label
+        result = encoders['class'].inverse_transform(prediction)[0]
 
-        return render_template('index.html', prediction_text=f"Prediction: {output}")
+        return render_template('index.html', prediction_text=f"Prediction: {result}")
 
     except Exception as e:
         return f"Error: {str(e)}"
