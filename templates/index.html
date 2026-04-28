@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Evaluation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🚗 Car Evaluation Predictor</h1>
+
+    <form action="/predict" method="post">
+
+        <select name="buying">
+            <option value="low">Buying: Low</option>
+            <option value="med">Buying: Medium</option>
+            <option value="high">Buying: High</option>
+            <option value="vhigh">Buying: Very High</option>
+        </select>
+
+        <select name="maint">
+            <option value="low">Maintenance: Low</option>
+            <option value="med">Maintenance: Medium</option>
+            <option value="high">Maintenance: High</option>
+            <option value="vhigh">Maintenance: Very High</option>
+        </select>
+
+        <select name="doors">
+            <option value="2">2 Doors</option>
+            <option value="3">3 Doors</option>
+            <option value="4">4 Doors</option>
+            <option value="5more">5+ Doors</option>
+        </select>
+
+        <select name="persons">
+            <option value="2">2 Persons</option>
+            <option value="4">4 Persons</option>
+            <option value="more">More Persons</option>
+        </select>
+
+        <select name="lug_boot">
+            <option value="small">Small Boot</option>
+            <option value="med">Medium Boot</option>
+            <option value="big">Big Boot</option>
+        </select>
+
+        <select name="safety">
+            <option value="low">Safety: Low</option>
+            <option value="med">Safety: Medium</option>
+            <option value="high">Safety: High</option>
+        </select>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
